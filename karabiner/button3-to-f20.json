@@ -1,0 +1,26 @@
+{
+  "title": "MouseGesture Helper",
+  "rules": [
+    {
+      "description": "MouseGesture Helper: reserve button3 as F20",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "pointing_button": "button3",
+            "modifiers": {
+              "optional": [
+                "any"
+              ]
+            }
+          },
+          "to": [
+            {
+              "key_code": "f20"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
