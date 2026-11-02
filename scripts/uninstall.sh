@@ -7,7 +7,7 @@ KARABINER_FILE="$HOME/.config/karabiner/assets/complex_modifications/mousegestur
 DOMAIN="gui/$UID"
 
 launchctl bootout "$DOMAIN" "$PLIST" >/dev/null 2>&1 || true
-rm -f "$PLIST" "$KARABINER_FILE"
+rm -f "$PLIST" "$KARABINER_FILE" "$HOME/.config/karabiner/assets/complex_modifications/mousegesture-helper-paging.json"
 rm -rf "$INSTALL_DIR"
 
 echo "Removed MouseGestureHelper files."

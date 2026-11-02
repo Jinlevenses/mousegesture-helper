@@ -1,13 +1,15 @@
 # MouseGesture Helper
 
-Karabiner-Elements와 함께 쓰는 최소 macOS helper입니다. Karabiner가 button3를 F20으로 바꾸면 helper가 F20과 포인터 이동을 관찰해 제스처를 판정합니다. 포인터 이벤트는 listen-only tap으로 통과시키며, **스크롤 휠을 전혀 가로채지 않습니다.** 휠은 helper 설치 전과 동일한 macOS 기본 동작을 그대로 사용합니다.
+Karabiner-Elements와 함께 쓰는 최소 macOS helper입니다. Karabiner가 button3를 F20으로 바꾸면 helper가 F20과 포인터 이동을 관찰해 제스처를 판정합니다. 포인터 이벤트는 listen-only tap으로 통과시킵니다. **버튼을 누르지 않은 일반 스크롤은 수정하지 않습니다.** 선택 규칙을 켜면 button4를 누른 동안 수직 휠을 Page Up/Down으로 바꿉니다.
 
 - **button3 짧게 클릭** → macOS에 현재 등록된 Mission Control 단축키
 - **button3 300ms 홀드** → macOS에 현재 등록된 App Exposé 단축키
 - **button3 + 좌/우 드래그** → macOS 13–26에서 interactive Space swipe
 - **button3 + 위/아래 드래그** → macOS 13–26에서 interactive Mission Control/App Exposé gesture
-- **마우스 휠 / Trackpad / Magic Mouse 스크롤** → helper가 관여하지 않음, macOS 기본 동작
-- **button4 / button5** → 전혀 건드리지 않음
+- **일반 마우스 휠 / Trackpad / Magic Mouse 스크롤** → macOS 기본 동작
+- **button4 + 수직 휠 (선택 규칙)** → 물리적으로 위로 돌리면 Page Up, 아래로 돌리면 Page Down
+- **button4 단독 짧게 클릭** → 선택 규칙을 켜도 기존 클릭 동작 유지
+- **button5** → 전혀 건드리지 않음
 
 ## 왜 Karabiner에서 button3를 F20으로 바꾸나
 
@@ -57,6 +59,16 @@ LaunchAgent의 `RunAtLoad`가 활성화되어 있으므로 정상 설치 후에�
 
 기존에 button3에 `to_if_alone`/`to_if_held_down`을 설정한 다른 규칙은 **비활성화**해야 합니다. 이 helper에서는 click/hold 판단도 helper가 담당하므로 button3에 활성화된 Karabiner rule은 `button3 -> F20` 하나만 남기는 것을 권장합니다.
 
+## button4 + 휠로 페이지 이동 (선택)
+
+설치 후 Karabiner-Elements의 **Complex Modifications → Add predefined rule**에서 `MouseGesture Helper: button4 + wheel for Page Up/Down`을 활성화합니다. 이 규칙은 `mousegesture-helper-paging.json`으로 설치됩니다.
+
+- button4를 누른 채 휠을 위로 돌리면 Page Up, 아래로 돌리면 Page Down을 전송합니다. 자연스러운 스크롤 설정과 관계없이 물리적인 휠 방향을 사용합니다.
+- button4를 놓으면 일반 스크롤로 돌아옵니다. 페이지 이동에 사용한 버튼을 놓을 때 단독 클릭을 추가로 보내지 않습니다.
+- button4 단독 짧게 클릭(기본 1초 이내)은 기존 클릭으로 전달됩니다. 이 단독 클릭은 버튼을 놓는 시점에 전달됩니다.
+- 트랙패드의 연속 스크롤, 수평 휠, 관성 스크롤은 변환하지 않습니다.
+- `F19`는 내부 신호로 예약됩니다. 기존 button4 규칙과 겹치면 이 선택 규칙을 활성화하기 전에 중복 규칙을 꺼야 합니다.
+
 ## 제스처 튜닝
 
 설정은 `~/Library/LaunchAgents/com.local.mousegesture-helper.plist`의 `EnvironmentVariables`에서 바꿀 수 있습니다.
@@ -96,13 +108,13 @@ Mac Mouse Fix 소스는 macOS 27부터 기존 CGEvent-field-only DockSwipe가 �
 make test
 ```
 
-스크롤 기능이 production code에서 완전히 제거되었는지, Karabiner JSON과 plist/shell 문법까지 포함해 검사:
+스크롤 평활화 코드가 없는지, Karabiner JSON과 plist/shell 문법까지 포함해 검사:
 
 ```bash
 make check
 ```
 
-macOS 27+ shortcut fallback의 실제 F20/포인터 콜백을 사용한 방향 회귀 검사 (시스템 입력은 전송하지 않음):
+실제 F19/F20/포인터 콜백을 사용한 제스처 방향, Page Up/Down, 일반 휠 통과 회귀 검사 (시스템 입력은 전송하지 않음):
 
 ```bash
 make mac-test
@@ -120,7 +132,7 @@ make mac-build
 ./scripts/uninstall.sh
 ```
 
-삭제 후 Karabiner-Elements에서 `MouseGesture Helper: reserve button3 as F20` rule도 비활성화하거나 제거하세요. uninstall 스크립트는 설치 파일과 LaunchAgent를 제거하지만 Karabiner 설정 앱의 활성화 상태까지 변경하지는 않습니다.
+삭제 후 Karabiner-Elements에서 `MouseGesture Helper: reserve button3 as F20`과 선택한 button4 페이지 이동 규칙도 비활성화하거나 제거하세요. uninstall 스크립트는 설치 파일과 LaunchAgent를 제거하지만 Karabiner 설정 앱의 활성화 상태까지 변경하지는 않습니다.
 
 ## Attribution / implementation note
 
