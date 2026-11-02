@@ -39,7 +39,7 @@ Karabiner-Elements에서:
 
 기존에 같은 rule이 이미 활성화되어 있다면 그대로 두면 됩니다.
 
-**System Settings → Privacy & Security → Accessibility**에서 `mousegesture-helper`가 허용되어 있어야 합니다. helper 바이너리를 업데이트한 뒤 macOS가 기존 권한을 그대로 인정하지 않는 경우에는 다시 ON 상태를 확인하고, Input Monitoring 요청이 표시되면 그 권한도 허용한 뒤 다음 명령으로 재시작합니다.
+**System Settings → Privacy & Security → Accessibility**에서 `mousegesture-helper`가 허용되어 있어야 합니다. macOS 27.2에서는 이 항목이 **기기 제어 및 데이터 접근**으로 표시됩니다. helper 바이너리를 업데이트한 뒤 ON 상태인데도 권한 오류가 나면 기존 항목을 제거하고, `+`에서 `~/Library/Application Support/MouseGestureHelper/mousegesture-helper`를 다시 추가해 허용하세요. Input Monitoring 요청이 표시되면 그 권한도 허용한 뒤 다음 명령으로 재시작합니다.
 
 ```bash
 launchctl kickstart -k gui/$UID/com.local.mousegesture-helper
