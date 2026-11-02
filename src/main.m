@@ -365,15 +365,17 @@ static void handle_drag_action(MGGestureAction action) {
     if (!mg_dock_swipe_supported()) {
         if (action.type == MG_ACTION_DRAG_ENDED) {
             if (action.axis == MG_AXIS_HORIZONTAL) {
-                if (gFallbackAccumX < 0.0) {
+                double direction = gFallbackAccumX * gHorizontalSign;
+                if (direction < 0.0) {
                     schedule_symbolic_hotkey(kSymbolicHotKeyMoveLeftASpace);
-                } else if (gFallbackAccumX > 0.0) {
+                } else if (direction > 0.0) {
                     schedule_symbolic_hotkey(kSymbolicHotKeyMoveRightASpace);
                 }
             } else if (action.axis == MG_AXIS_VERTICAL) {
-                if (gFallbackAccumY < 0.0) {
+                double direction = gFallbackAccumY * gVerticalSign;
+                if (direction < 0.0) {
                     schedule_symbolic_hotkey(kSymbolicHotKeyMissionControl);
-                } else if (gFallbackAccumY > 0.0) {
+                } else if (direction > 0.0) {
                     schedule_symbolic_hotkey(kSymbolicHotKeyAppExpose);
                 }
             }

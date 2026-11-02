@@ -84,6 +84,8 @@ Mac Mouse Fix 소스는 macOS 27부터 기존 CGEvent-field-only DockSwipe가 �
 - button3 좌우 드래그 release → macOS의 Space 이동 단축키
 - button3 상하 드래그 release → macOS의 Mission Control/App Exposé 단축키
 
+`MG_HORIZONTAL_SIGN`과 `MG_VERTICAL_SIGN`은 이 단축키 fallback에도 적용됩니다. 기본값(`-1`, `1`)에서는 오른쪽 드래그 → 왼쪽 Space, 왼쪽 드래그 → 오른쪽 Space로 이동하며, 위쪽 드래그 → Mission Control, 아래쪽 드래그 → App Exposé가 실행됩니다. macOS 13–26의 interactive gesture와 같은 방향 설정을 사용합니다.
+
 따라서 fallback도 고정된 `Control+화살표`를 무조건 전송하지 않고, macOS에 현재 등록된 symbolic hot key를 사용합니다. 해당 시스템 단축키가 비활성화되어 있으면 동작하지 않을 수 있습니다. button3 click/hold는 macOS 13–26과 동일하게 동작합니다.
 
 ## 테스트
@@ -98,6 +100,12 @@ make test
 
 ```bash
 make check
+```
+
+macOS 27+ shortcut fallback의 실제 F20/포인터 콜백을 사용한 방향 회귀 검사 (시스템 입력은 전송하지 않음):
+
+```bash
+make mac-test
 ```
 
 macOS native helper 빌드 (macOS에서만 가능하며 ad-hoc 서명됩니다):

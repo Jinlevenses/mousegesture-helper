@@ -2,7 +2,7 @@ CC ?= cc
 CFLAGS ?= -std=c11 -Wall -Wextra -Werror -O2
 TEST_DIR := build/tests
 
-.PHONY: test check mac-build clean
+.PHONY: test check mac-test mac-build clean
 
 test: $(TEST_DIR)/test_gesture_logic
 	$(TEST_DIR)/test_gesture_logic
@@ -19,6 +19,12 @@ check: test
 	python3 tests/check_no_smooth_scroll.py
 	python3 -c "import plistlib; plistlib.load(open('scripts/com.local.mousegesture-helper.plist.template', 'rb'))"
 	bash -n scripts/build.sh scripts/install.sh scripts/uninstall.sh
+
+mac-test: $(TEST_DIR)/test_drag_direction
+	$(TEST_DIR)/test_drag_direction
+
+$(TEST_DIR)/test_drag_direction: tests/test_drag_direction.m src/main.m src/GestureLogic.c src/GestureLogic.h src/DockSwipe.h | $(TEST_DIR)
+	xcrun --sdk macosx clang $(CFLAGS) -fobjc-arc -mmacosx-version-min=13.0 tests/test_drag_direction.m src/GestureLogic.c -framework Cocoa -framework ApplicationServices -framework Carbon -o $@
 
 mac-build:
 	./scripts/build.sh
