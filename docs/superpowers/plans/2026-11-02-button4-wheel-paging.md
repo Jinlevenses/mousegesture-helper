@@ -12,14 +12,14 @@
 
 - Preserve macOS 13+ support and Karabiner-Elements 16.1 compatibility.
 - Preserve button3 gestures and button5. Ordinary, continuous, horizontal, and momentum scrolling passes through unchanged.
-- Physical wheel up/down maps to Page Up/Page Down regardless of natural scrolling.
+- Page Up/Page Down follows the same direction as ordinary scrolling, including the natural scrolling preference.
 - Button4 single click remains a click; release after wheel use must not click.
 - Do not reintroduce smoothing, scroll physics, new dependencies, or unrelated hold timing changes.
 
 ## Review Focus
 
 - No held button: compare the input wheel event before/after and assert identity plus no output.
-- Natural scrolling: exercise both inversion flags with literal expected Page Up/Page Down keycodes.
+- Natural scrolling: the same delivered delta always maps to the same page key, with both inversion flags exercised.
 - Trackpad/horizontal/momentum: pass each through while F19 is held.
 - Button release or event tap loss: ensure paging stops and later wheel events pass.
 - Output allocation/post preparation failure: return the original scroll event rather than dropping it.
@@ -42,5 +42,5 @@
 - [ ] Back up the current executable, LaunchAgent, Karabiner assets and active profile before deployment.
 - [ ] Install the tested executable and optional asset, enable only the approved paging rule in the selected profile, preserve other settings, and refresh the same helper permission if necessary.
 - [ ] Verify helper startup, installed/build binary identity, Karabiner configuration acceptance, ordinary scroll passthrough, paging, and button4 standalone click on actual hardware.
-- [ ] Inspect raw original wheel input and application scroll input for the reported ordinary-scroll reversals/drops. Do not claim that problem fixed without reproducing the symptom and verifying a targeted remedy.
+- [ ] Verify the reported direction mismatch between ordinary scroll and button4 paging. New literal natural-scroll cases must fail before removing the redundant inversion and pass afterward.
 - [ ] Commit local changes and report remaining hardware/OS uncertainty; do not push without a request.

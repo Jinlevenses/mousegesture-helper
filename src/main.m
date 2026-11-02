@@ -254,14 +254,9 @@ static CGEventRef paging_scroll_event(CGEventRef event) {
     double dx = CGEventGetIntegerValueField(event, kCGScrollWheelEventDeltaAxis2);
     if (dy == 0.0 || dx != 0.0) return event;
 
-    @autoreleasepool {
-        NSEvent *scroll = [NSEvent eventWithCGEvent:event];
-        if (!scroll) return event;
-        if (scroll.isDirectionInvertedFromDevice) dy = -dy;
-        CGKeyCode key = dy > 0.0 ? kVK_PageUp : kVK_PageDown;
-        if (post_symbolic_hotkey_keyboard_events(key, 0)) return NULL;
-    }
-    return event;
+    // CGEvent deltas already include the user's scroll direction preference.
+    CGKeyCode key = dy > 0.0 ? kVK_PageUp : kVK_PageDown;
+    return post_symbolic_hotkey_keyboard_events(key, 0) ? NULL : event;
 }
 
 static bool post_symbolic_hotkey(MGSymbolicHotKey hotKey) {

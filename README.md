@@ -7,7 +7,7 @@ Karabiner-Elements와 함께 쓰는 최소 macOS helper입니다. Karabiner가 b
 - **button3 + 좌/우 드래그** → macOS 13–26에서 interactive Space swipe
 - **button3 + 위/아래 드래그** → macOS 13–26에서 interactive Mission Control/App Exposé gesture
 - **일반 마우스 휠 / Trackpad / Magic Mouse 스크롤** → macOS 기본 동작
-- **button4 + 수직 휠 (선택 규칙)** → 물리적으로 위로 돌리면 Page Up, 아래로 돌리면 Page Down
+- **button4 + 수직 휠 (선택 규칙)** → 일반 휠과 같은 방향으로 페이지 단위 이동
 - **button4 단독 짧게 클릭** → 선택 규칙을 켜도 기존 클릭 동작 유지
 - **button5** → 전혀 건드리지 않음
 
@@ -63,7 +63,7 @@ LaunchAgent의 `RunAtLoad`가 활성화되어 있으므로 정상 설치 후에�
 
 설치 후 Karabiner-Elements의 **Complex Modifications → Add predefined rule**에서 `MouseGesture Helper: button4 + wheel for Page Up/Down`을 활성화합니다. 이 규칙은 `mousegesture-helper-paging.json`으로 설치됩니다.
 
-- button4를 누른 채 휠을 위로 돌리면 Page Up, 아래로 돌리면 Page Down을 전송합니다. 자연스러운 스크롤 설정과 관계없이 물리적인 휠 방향을 사용합니다.
+- button4를 누른 채 휠을 돌리면 일반 스크롤과 같은 방향으로 Page Up/Down을 전송합니다. macOS의 자연스러운 스크롤 설정을 그대로 따르므로 버튼을 눌렀을 때 방향이 바뀌지 않습니다.
 - button4를 놓으면 일반 스크롤로 돌아옵니다. 페이지 이동에 사용한 버튼을 놓을 때 단독 클릭을 추가로 보내지 않습니다.
 - button4 단독 짧게 클릭(기본 1초 이내)은 기존 클릭으로 전달됩니다. 이 단독 클릭은 버튼을 놓는 시점에 전달됩니다.
 - 트랙패드의 연속 스크롤, 수평 휠, 관성 스크롤은 변환하지 않습니다.
