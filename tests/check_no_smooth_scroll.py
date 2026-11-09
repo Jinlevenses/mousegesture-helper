@@ -13,8 +13,6 @@ for path in forbidden_files:
 checks = {
     ROOT / 'src' / 'main.m': [
         'SmoothScroll',
-        'kCGEventScrollWheel',
-        'kCGScrollWheelEvent',
         'mg_scroll_',
         'post_smooth_scroll',
         'MG_SCROLL_',

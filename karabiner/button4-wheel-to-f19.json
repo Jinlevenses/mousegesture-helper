@@ -1,0 +1,49 @@
+{
+  "title": "MouseGesture Helper: Page scrolling",
+  "rules": [
+    {
+      "description": "MouseGesture Helper: button4 + wheel for Page Up/Down",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "pointing_button": "button4",
+            "modifiers": {
+              "optional": [
+                "any"
+              ]
+            }
+          },
+          "to": [
+            {
+              "key_code": "f19"
+            }
+          ],
+          "to_if_alone": [
+            {
+              "key_code": "open_bracket",
+              "modifiers": [
+                "left_command"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": {
+            "pointing_button": "button5"
+          },
+          "to": [
+            {
+              "key_code": "close_bracket",
+              "modifiers": [
+                "left_command"
+              ],
+              "repeat": false
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -17,6 +17,7 @@ mkdir -p "$INSTALL_DIR" "$HOME/Library/LaunchAgents" "$LOG_DIR" "$KARABINER_DIR"
 cp "$ROOT/build/mousegesture-helper" "$INSTALL_BIN"
 chmod 755 "$INSTALL_BIN"
 cp "$ROOT/karabiner/button3-to-f20.json" "$KARABINER_FILE"
+cp "$ROOT/karabiner/button4-wheel-to-f19.json" "$KARABINER_DIR/mousegesture-helper-paging.json"
 
 sed \
   -e "s|__HELPER_PATH__|$INSTALL_BIN|g" \

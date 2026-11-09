@@ -16,3 +16,20 @@ assert m['to'] == [{'key_code': 'f20'}], 'F20 must stay down until physical butt
 text = path.read_text()
 assert 'button4' not in text and 'button5' not in text
 print('karabiner config checks passed')
+
+paging = json.loads(Path('karabiner/button4-wheel-to-f19.json').read_text())
+manips = paging['rules'][0]['manipulators']
+assert len(manips) == 2
+m = manips[0]
+assert m['type'] == 'basic'
+assert m['from']['pointing_button'] == 'button4'
+assert m['from']['modifiers']['optional'] == ['any']
+assert m['to'] == [{'key_code': 'f19'}], 'F19 must stay down until button4 release'
+assert m['to_if_alone'] == [{'key_code': 'open_bracket', 'modifiers': ['left_command']}], 'unused button4 click must navigate back'
+forward = manips[1]
+assert forward['type'] == 'basic'
+assert forward['from'] == {'pointing_button': 'button5'}
+assert forward['to'] == [{'key_code': 'close_bracket', 'modifiers': ['left_command'], 'repeat': False}]
+assert 'to_if_alone' not in forward, 'forward click must not be emitted twice'
+assert 'button3' not in json.dumps(paging)
+print('paging config checks passed')
